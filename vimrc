@@ -18,26 +18,109 @@
 " ├── tabular
 " ├── tlib_vim
 " ├── ultisnips
-" ├── ultisnips_backup
 " ├── vim-addon-mw-utils
-" ├── vim-align
 " ├── vim-coloresque
 " ├── vim-fugitive
-" ├── vim-gitgutter
 " ├── vim-javascript
 " ├── vim-less
 " ├── vim-markdown
-" ├── vim-objj
 " ├── vim-powerline
 " ├── vim-startify
 " ├── vimwiki
 " ├── zencoding-vim
 " └── ZoomWin
 
-" load bundles "{{{
-call pathogen#infect()
-call pathogen#helptags() "}}}
-" powerline settings"{{{
+" The best color scheme in the world "{{{
+colorscheme zenburn
+let g:zenburn_high_Contrast = 1  " more contrast
+"}}}
+" Turn on syntax highlighting "{{{
+syn on
+"}}}
+
+" ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
+let g:ackprg="ack -H --nocolor --nogroup --column"
+"}}}
+" ctrlp.vim          ::: open files quickly by typing a few letters of their name"{{{
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_regexp = 1 " make regex mode the default
+let g:ctrlp_open_multiple_files = '1vjr'
+let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from the startify window
+set wildignore+=*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/target/*,*\\target\\*
+"}}}
+" gundo.vim          ::: browse your undo history tree"{{{
+" no customizations yet
+" }}}
+" kwbd.vim           ::: delete buffer without closing window "{{{
+nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
+"}}}
+" mustache.vim       ::: syntax highlighting file for mustache and handlebars "{{{
+" no customizations yet
+" }}}
+" nerdcommenter      ::: easily comment and uncomment code"{{{
+" no customizations yet
+""}}}
+" nerdtree           ::: a file tree browser "{{{
+" <leader>n opens NERD Tree
+nnoremap <leader>n :NERDTreeFind<CR> 
+" F2 opens/closes NERD Tree
+noremap <F2> :NERDTreeToggle<CR> 
+"}}}
+" sexy_scroller.vim  ::: smooth scrolling within vim, good for pair programming "{{{
+" defaults
+"let g:SexyScroller_ScrollTime = 10
+"let g:SexyScroller_CursorTime = 0
+"let g:SexyScroller_MaxTime = 500
+"let g:SexyScroller_EasingStyle = 2
+"let g:SexyScroller_DetectPendingKeys = 1
+" eyecandy 
+let g:SexyScroller_ScrollTime = 20
+let g:SexyScroller_CursorTime = 0
+let g:SexyScroller_MaxTime = 1200
+let g:SexyScroller_EasingStyle = 3
+let g:SexyScroller_DetectPendingKeys = 1
+" STOP IT (by default :)
+let g:SexyScroller_Enabled = 0
+"}}}
+" syntastic          ::: automatically run linting utilities on code " {{{ 
+let g:syntastic_mode_map = { 'mode' : 'active',
+                           \ 'active_filetypes' : ['javascript'],
+                           \ 'passive_filetypes' : ['python'] }
+
+" disable java syntax checking (it couldn't find the pom)
+let g:syntastic_java_javac_executable=''
+"}}}
+" tabular            ::: powerful text alignment tool "{{{
+" no customizations yet
+""}}}
+" tlib_vim           ::: vimscript utility library, used by other plugins"{{{
+" no customizations needed
+""}}}
+" ultisnips          ::: a powerful code snippet utility"{{{
+" no customizations yet
+""}}}
+" vim-addon-mw-utils ::: vimscript utility library, used by other plugins"{{{
+" no customizations needed
+""}}}
+" vim-coloresque     ::: colorize CSS color names"{{{
+" no customizations yet
+""}}}
+" vim-fugitive       ::: may very well be the best git wrapper of all time"{{{
+" no customizations yet
+""}}}
+" vim-javascript     ::: vastly improved JavaScript color coding"{{{
+" no customizations yet
+" also the customizations listed in the README don't seem to work
+""}}}
+" vim-less           ::: add syntax hilighting, indenting, etc for LESS"{{{
+" no customizations yet
+""}}}
+" vim-markdown       ::: add syntax hilighting and matching rules for Markdown"{{{
+let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
+""}}}
+" vim-powerline      ::: an improved and more beautiful statusline"{{{
 
 " When you’re pressing Escape to leave insert mode in the terminal, it will by
 " default take a second or another keystroke to leave insert mode completely
@@ -53,7 +136,72 @@ if ! has('gui_running')
 endif
 
 set noshowmode " don't show current mode (powerline shows it more prettier) 
+""}}}
+" vim-startify       ::: a start screen for Vim "{{{
+let g:startify_bookmarks = ['~/Dropbox/configs/vim/vimrc']
+let g:startify_change_to_dir = 1 " automatically change to dir when selecting a file
+let g:startify_files_number = 9
+let g:startify_custom_header = [
+            \ '     __  __                            ________     __ __      ',
+            \ '    /\ \/\ \    __                    /\____   \   /\ \\ \     ',
+            \ '    \ \ \ \ \  /\_\     ___ ___       \/___/  /    \ \ \\ \    ',
+            \ '     \ \ \ \ \ \/\ \   / __` __`\         /  /      \ \ \\ \_  ',
+            \ '      \ \ \_/ \ \ \ \ /\ \/\ \/\ \       /  /    __  \ \__  __\',
+            \ '       \ `\___/  \ \_\\ \_\ \_\ \_\     /\_/    /\_\  \/_/\_\_/',
+            \ '        `\/__/    \/_/ \/_/\/_/\/_/     \//     \/_/     \/_/  ',
+            \ '',
+            \ '',
+            \ ]
+" special colors for startify
+hi StartifyHeader  ctermfg=108
+hi StartifyBracket ctermfg=245
+hi StartifyNumber  ctermfg=174
+hi StartifyPath    ctermfg=240
+hi StartifySlash   ctermfg=236
+"hi StartifyFile    ctermfg=236
+""}}}
+" vimwiki            ::: a personal wiki for Vim "{{{
+au BufRead,BufNewFile *.wiki set textwidth=80
+au BufWritePost *.wiki silent VimwikiAll2HTML
 "}}}
+" zencoding-vim      ::: zencoding plugin for Vim "{{{
+let g:user_zen_settings = {
+\  'indentation' : '    ',
+\  'perl' : {
+\    'aliases' : {
+\      'req' : 'require '
+\    },
+\    'snippets' : {
+\      'use' : "use strict\nuse warnings\n\n",
+\      'warn' : "warn \"|\";",
+\    }
+\  }
+\} 
+" remove all the normal-mode <C-Y> commands because <C-Y> in vim scrolls up
+" one line and I use that frequently.  Silly of them to use <C-Y>...
+"unmapping didn't work because zencoding establishes mappings after vimrc runs
+"unmap <C-Y>A
+"unmap <C-Y>a
+"unmap <C-Y>k
+"unmap <C-Y>j
+"unmap <C-Y>/
+"unmap <C-Y>i
+"unmap <C-Y>N
+"unmap <C-Y>n
+"unmap <C-Y>D
+"unmap <C-Y>d
+"unmap <C-Y>,
+
+"}}}
+" ZoomWin            ::: zoom buffers to fill the entire screen"{{{
+" no customizations yet
+""}}}
+
+
+
+" load bundles "{{{
+call pathogen#infect()
+call pathogen#helptags() "}}}
 " enable mousing in terminal"{{{
 set mouse=a
 set ttymouse=xterm2
@@ -62,14 +210,8 @@ set ttymouse=xterm2
 set nocompatible "}}}
 " Turn on file-type plugins "{{{
 filetype plugin indent on "}}}
-" The best color scheme in the world "{{{
-colorscheme zenburn
-let g:zenburn_high_Contrast = 1  " more contrast
-"}}}
 " Allow CFML nonstandard comments <!--- ---> "{{{
 let html_wrong_comments = 1 "}}}
-" Turn on syntax highlighting "{{{
-syn on "}}}
 " Terminus is a pretty font "{{{
 if has("unix")
   set guifont=Terminus\ 12
@@ -197,10 +339,6 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l "}}}
 " use <leader>w to remove all trailing whitespace from a file "{{{
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR> "}}}
-" <leader>n opens NERD Tree "{{{
-nnoremap <leader>n :NERDTreeFind<CR>
-noremap <F2> :NERDTreeToggle<CR> 
-"}}}
 " give in/around support for various other characters besides the standard (, "{{{
 " [, {, <, ", ', etc.
 " @ "{{{
@@ -260,108 +398,22 @@ let g:netrw_browse_split=4
 let g:netrw_preview=1 "}}}
 " make ~ act like an operator "{{{
 set tildeop "}}}
-" zencoding preferences "{{{
-let g:user_zen_settings = {
-\  'indentation' : '    ',
-\  'perl' : {
-\    'aliases' : {
-\      'req' : 'require '
-\    },
-\    'snippets' : {
-\      'use' : "use strict\nuse warnings\n\n",
-\      'warn' : "warn \"|\";",
-\    }
-\  }
-\} 
-" remove all the normal-mode <C-Y> commands because <C-Y> in vim scrolls up
-" one line and I use that frequently.  Silly of them to use <C-Y>...
-"unmapping didn't work because zencoding establishes mappings after vimrc runs
-"unmap <C-Y>A
-"unmap <C-Y>a
-"unmap <C-Y>k
-"unmap <C-Y>j
-"unmap <C-Y>/
-"unmap <C-Y>i
-"unmap <C-Y>N
-"unmap <C-Y>n
-"unmap <C-Y>D
-"unmap <C-Y>d
-"unmap <C-Y>,
-
-"}}}
 " map Ctrl-Tab to zencoding expand "{{{
 let g:user_zen_leader_key = '<F11>'
 inoremap <Leader><Tab> <F11>,
 "}}}
-" vimwiki settings "{{{
-au BufRead,BufNewFile *.wiki set textwidth=80
-au BufWritePost *.wiki silent VimwikiAll2HTML
-"}}}
-" use correct syntax highlighting on jsp crap "{{{
-au BufNewFile,BufRead *.tagx set filetype=html
-au BufNewFile,BufRead *.jspx set filetype=html "}}}
 " allow intelligent autocompletion of css selector names "{{{
 autocmd FileType css,scss,less set iskeyword=@,48-57,_,-,?,!,192-255 "}}}
-" use Ctrl+j and Ctrl+k to navigate autocomple lists "{{{
+" use Ctrl+j and Ctrl+k to navigate autocomplete lists "{{{
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>" "}}}
-" CtrlP plugin "{{{
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_regexp = 1 " make regex mode the default
-let g:ctrlp_open_multiple_files = '1vjr'
-let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from the startify window
-set wildignore+=*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/target/*,*\\target\\*
-"}}}
-" Ack plugin"{{{
-let g:ackprg="ack -H --nocolor --nogroup --column"
-" previously: let g:ackprg="~/bin/ack -H --nocolor --nogroup --column"
-"}}}
-" {{{ BufSurf prev/next commands
+" {{{ Buffer prev/next commands
 nnoremap <S-h> :bprev<CR>
 nnoremap <S-l> :bnext<CR>
-"}}}
-" {{{ Git Gutter plugin settings
-highlight clear SignColumn " fix colors in the 'sign' column
-" navigate between hunks
-nnoremap ]g :GitGutterNextHunk<CR>
-nnoremap [g :GitGutterPrevHunk<CR>
-nnoremap <Leader>gg :GitGutterToggle<CR>
 "}}}
 " {{{ Spellcheck mappings
 noremap <Leader>se :setlocal spell spelllang=en_us<CR>
 noremap <Leader>sn :setlocal nospell<CR>
-"}}}
-" {{{ Kwbd settings (delete buffer without closing window)
-nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
-"}}}
-" {{{ Syntastic settings
-let g:syntastic_mode_map = { 'mode' : 'active',
-                           \ 'active_filetypes' : ['javascript'],
-                           \ 'passive_filetypes' : ['python'] }
-
-" disable java syntax checking (it couldn't find my pom)
-let g:syntastic_java_javac_executable=''
-"}}}
-" startify settings"{{{
-let g:startify_bookmarks = ['~/Dropbox/configs/vim/vimrc']
-""}}}
-" sexy scroller settings "{{{
-" defaults
-"let g:SexyScroller_ScrollTime = 10
-"let g:SexyScroller_CursorTime = 0
-"let g:SexyScroller_MaxTime = 500
-"let g:SexyScroller_EasingStyle = 2
-"let g:SexyScroller_DetectPendingKeys = 1
-" eyecandy 
-let g:SexyScroller_ScrollTime = 20
-let g:SexyScroller_CursorTime = 0
-let g:SexyScroller_MaxTime = 1200
-let g:SexyScroller_EasingStyle = 3
-let g:SexyScroller_DetectPendingKeys = 1
-" STOP IT (by default :)
-let g:SexyScroller_Enabled = 0
 "}}}
 
 " vim: set foldmethod=marker:
