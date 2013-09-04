@@ -16,6 +16,7 @@
 " ├── sexy_scroller.vim
 " ├── syntastic
 " ├── tabular
+" ├── tagbar
 " ├── tlib_vim
 " ├── ultisnips
 " ├── vim-addon-mw-utils
@@ -64,9 +65,9 @@ nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
 ""}}}
 " nerdtree           ::: a file tree browser "{{{
 " <leader>n opens NERD Tree
-nnoremap <leader>n :NERDTreeFind<CR> 
+nnoremap <leader>n :NERDTreeFind<CR>
 " F2 opens/closes NERD Tree
-noremap <F2> :NERDTreeToggle<CR> 
+noremap <F2> :NERDTreeToggle<CR>
 "}}}
 " sexy_scroller.vim  ::: smooth scrolling within vim, good for pair programming "{{{
 " defaults
@@ -75,7 +76,7 @@ noremap <F2> :NERDTreeToggle<CR>
 "let g:SexyScroller_MaxTime = 500
 "let g:SexyScroller_EasingStyle = 2
 "let g:SexyScroller_DetectPendingKeys = 1
-" eyecandy 
+" eyecandy
 let g:SexyScroller_ScrollTime = 20
 let g:SexyScroller_CursorTime = 0
 let g:SexyScroller_MaxTime = 1200
@@ -84,16 +85,20 @@ let g:SexyScroller_DetectPendingKeys = 1
 " STOP IT (by default :)
 let g:SexyScroller_Enabled = 0
 "}}}
-" syntastic          ::: automatically run linting utilities on code " {{{ 
+" syntastic          ::: automatically run linting utilities on code " {{{
 let g:syntastic_mode_map = { 'mode' : 'active',
                            \ 'active_filetypes' : ['javascript'],
                            \ 'passive_filetypes' : ['python'] }
 
 " disable java syntax checking (it couldn't find the pom)
-let g:syntastic_java_javac_executable=''
+let g:syntastic_java_javac_executable = ''
+let g:syntastic_javascript_checkers = ['jslint']
 "}}}
 " tabular            ::: powerful text alignment tool "{{{
 " no customizations yet
+""}}}
+" tagbar             ::: source code outline plugin"{{{
+nmap <F8> :TagbarToggle<CR>
 ""}}}
 " tlib_vim           ::: vimscript utility library, used by other plugins"{{{
 " no customizations needed
@@ -126,22 +131,23 @@ let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
 " default take a second or another keystroke to leave insert mode completely
 " and update the statusline. If you find this annoying, you can add the
 " following snippet to your vimrc to escape insert mode immediately:
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=1000
-    augroup END
-endif
+"if ! has('gui_running')
+    "set ttimeoutlen=10
+    "augroup FastEscape
+        "autocmd!
+        "au InsertEnter * set timeoutlen=0
+        "au InsertLeave * set timeoutlen=1000
+    "augroup END
+"endif
 
-set noshowmode " don't show current mode (powerline shows it more prettier) 
 ""}}}
 " vim-startify       ::: a start screen for Vim "{{{
-let g:startify_bookmarks = ['~/Dropbox/configs/vim/vimrc']
+let g:startify_bookmarks = ['~/Dropbox/configs/vim/vimrc', '~/Dropbox/configs/vim/bundle/']
 let g:startify_change_to_dir = 1 " automatically change to dir when selecting a file
 let g:startify_files_number = 9
-let g:startify_custom_header = [
+" http://www.patorjk.com/software/taag/#p=testall&f=Graffiti&t=Vim%207.4%0A
+" Use font 'Larry 3D'
+let g:startify_custom_header = [ 
             \ '     __  __                            ________     __ __      ',
             \ '    /\ \/\ \    __                    /\____   \   /\ \\ \     ',
             \ '    \ \ \ \ \  /\_\     ___ ___       \/___/  /    \ \ \\ \    ',
@@ -152,8 +158,18 @@ let g:startify_custom_header = [
             \ '',
             \ '',
             \ ]
+let g:startify_custom_footer = [
+            \ '                  __    ____    ____    __      ',
+            \ '                 /  \  / __ \  / __ \  /  \     ',
+            \ '                /\__ \/\ \_\ \/\ \_\ \/\__ \    ',
+            \ '                \/_/\ \ \____ \ \____ \/_/\ \   ',
+            \ '                   \ \ \/___/\ \/___/\ \ \ \ \  ',
+            \ '                    \ \_\   \ \_\   \ \_\ \ \_\ ',
+            \ '                     \/_/    \/_/    \/_/  \/_/ ',
+            \ ]
 " special colors for startify
 hi StartifyHeader  ctermfg=108
+hi StartifyFooter  ctermfg=108
 hi StartifyBracket ctermfg=245
 hi StartifyNumber  ctermfg=174
 hi StartifyPath    ctermfg=240
@@ -176,7 +192,7 @@ let g:user_zen_settings = {
 \      'warn' : "warn \"|\";",
 \    }
 \  }
-\} 
+\}
 " remove all the normal-mode <C-Y> commands because <C-Y> in vim scrolls up
 " one line and I use that frequently.  Silly of them to use <C-Y>...
 "unmapping didn't work because zencoding establishes mappings after vimrc runs
@@ -196,7 +212,27 @@ let g:user_zen_settings = {
 " ZoomWin            ::: zoom buffers to fill the entire screen"{{{
 " no customizations yet
 ""}}}
-
+" vim-airline        ::: an improved and more beautiful statusline " {{{
+" remove separators
+let g:airline_left_sep=' '
+let g:airline_right_sep=' '
+let g:airline_enable_branch=1
+let g:airline_enable_syntastic=1
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts=0
+let g:airline_mode_map= {
+      \ 'n'  : 'NORMAL ',
+      \ 'i'  : 'INSERT ',
+      \ 'R'  : 'REPLACE',
+      \ 'v'  : 'VISUAL ',
+      \ 'V'  : 'V-LINE ',
+      \ 'c'  : 'CMD    ',
+      \ '' : 'V-BLOCK',
+      \ }
+let g:airline_branch_prefix = '⎇  '
+"}}}
 
 
 " load bundles "{{{
@@ -208,6 +244,9 @@ set ttymouse=xterm2
 "}}}
 " Turn off vi compatibility mode "{{{
 set nocompatible "}}}
+" don't show current mode (powerline shows it more prettier) "{{{
+set noshowmode
+"}}}
 " Turn on file-type plugins "{{{
 filetype plugin indent on "}}}
 " Allow CFML nonstandard comments <!--- ---> "{{{
@@ -282,20 +321,17 @@ set preserveindent " use existing indent structure when editing a line
 " hide toolbar "{{{
 set guioptions-=T
 " hide menu bar
-set guioptions-=m 
-"set guioptions+=m 
+set guioptions-=m
+"set guioptions+=m
 "}}}
 " hide right scrollbar "{{{
 set guioptions-=r "}}}
 " Allow backspacing over autoindents, eol's, etc "{{{
 set backspace=indent,eol,start "}}}
-" use kj to exit insert mode.  faster than escape "{{{
-inoremap kj <Esc>
-"}}}
 " showbreak: display > symbol when lines are wrapped "{{{
 set showbreak=\ \ >\ "}}}
 " n option will cause the showbreak symbols to appear between line numbers. "{{{
-set cpoptions+=n 
+set cpoptions+=n
 set guioptions+=n "}}}
 " stop autowrapping dammit "{{{
 set tw=0 "}}}
@@ -306,8 +342,8 @@ set pastetoggle=<F12> " toggle pasting into vim while preserving text's original
 " maintain buffer undo history when switching between buffers in the buffer list "{{{
 set hidden "}}}
 " highlight the current line "{{{
-set cursorline 
-set cursorcolumn 
+set cursorline
+set cursorcolumn
 "}}}
 " correct syntax highlighting for actionscript files "{{{
 au Bufread,BufNewFile *.as set filetype=actionscript "}}}
@@ -318,7 +354,7 @@ set encoding=utf-8 "}}}
 " autoindent please "{{{
 set autoindent "}}}
 " automatically read in file changes when launched from Eclipse "{{{
-" as an external tool.  External tool configuration configuration 
+" as an external tool.  External tool configuration configuration
 " options I use are:
 " --servername ECLIPSE --remote-silent ${resource_loc}
 if v:servername == "ECLIPSE"
@@ -368,6 +404,15 @@ nnoremap yi# T#y,
 nnoremap ya# F#y,
 nnoremap vi# T#v,
 nnoremap va# F#v, "}}}
+" / "{{{
+nnoremap di/ T/d,
+nnoremap da/ F/d,
+nnoremap ci/ T/c,
+nnoremap ca/ F/c,
+nnoremap yi/ T/y,
+nnoremap ya/ F/y,
+nnoremap vi/ T/v,
+nnoremap va/ F/v, "}}}
 " . "{{{
 nnoremap di. T.d,
 nnoremap da. F.d,
@@ -382,7 +427,7 @@ nnoremap va. F.v, "}}}
 " <h1>cursor is here</h1>
 " ci> will change between the tags
 "
-" TODO: make this work over multiple lines with 
+" TODO: make this work over multiple lines with
 " search instead of F/T
 nnoremap di> T>dt<
 nnoremap da> F>dt<
@@ -415,5 +460,12 @@ nnoremap <S-l> :bnext<CR>
 noremap <Leader>se :setlocal spell spelllang=en_us<CR>
 noremap <Leader>sn :setlocal nospell<CR>
 "}}}
+" use kj to exit insert mode.  faster than escape "{{{
+inoremap kj <Esc>
+"}}}
+" reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
+" powerline/airline
+set ttimeoutlen=50
+""}}}
 
 " vim: set foldmethod=marker:
