@@ -20,12 +20,12 @@ The vimrc is best viewed within vim itself.  Otherwise the folds won't be visibl
     ├── tlib_vim
     ├── ultisnips
     ├── vim-addon-mw-utils
+    ├── vim-airline
     ├── vim-coloresque
     ├── vim-fugitive
     ├── vim-javascript
     ├── vim-less
     ├── vim-markdown
-    ├── vim-powerline
     ├── vim-startify
     ├── vimwiki
     ├── zencoding-vim

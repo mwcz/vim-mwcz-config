@@ -20,12 +20,12 @@
 " ├── tlib_vim
 " ├── ultisnips
 " ├── vim-addon-mw-utils
+" ├── vim-airline
 " ├── vim-coloresque
 " ├── vim-fugitive
 " ├── vim-javascript
 " ├── vim-less
 " ├── vim-markdown
-" ├── vim-powerline
 " ├── vim-startify
 " ├── vimwiki
 " ├── zencoding-vim
