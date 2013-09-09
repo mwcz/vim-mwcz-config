@@ -16,21 +16,17 @@ The vimrc is best viewed within vim itself.  Otherwise the folds won't be visibl
     ├── sexy_scroller.vim
     ├── syntastic
     ├── tabular
+    ├── tagbar
     ├── tlib_vim
     ├── ultisnips
-    ├── ultisnips_backup
     ├── vim-addon-mw-utils
-    ├── vim-align
     ├── vim-coloresque
     ├── vim-fugitive
-    ├── vim-gitgutter
     ├── vim-javascript
     ├── vim-less
     ├── vim-markdown
-    ├── vim-objj
     ├── vim-powerline
     ├── vim-startify
     ├── vimwiki
     ├── zencoding-vim
     └── ZoomWin
-
