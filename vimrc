@@ -178,7 +178,10 @@ hi StartifySlash   ctermfg=236
 "hi StartifyFile    ctermfg=236
 ""}}}
 " vimwiki            ::: a personal wiki for Vim "{{{
+"let g:vimwiki_list = [{'path': '~/Dropbox/notes/', 
+                     "\ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_table_mappings = 0
+let g:vimwiki_conceallevel = 3
 "}}}
 " zencoding-vim      ::: zencoding plugin for Vim "{{{
 let g:user_zen_settings = {
