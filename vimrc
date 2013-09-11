@@ -178,8 +178,6 @@ hi StartifySlash   ctermfg=236
 "hi StartifyFile    ctermfg=236
 ""}}}
 " vimwiki            ::: a personal wiki for Vim "{{{
-au BufRead,BufNewFile *.wiki set textwidth=80
-au BufWritePost *.wiki silent VimwikiAll2HTML
 "}}}
 " zencoding-vim      ::: zencoding plugin for Vim "{{{
 let g:user_zen_settings = {
