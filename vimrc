@@ -95,7 +95,8 @@ let g:syntastic_java_javac_executable = ''
 let g:syntastic_javascript_checkers = ['jslint']
 "}}}
 " tabular            ::: powerful text alignment tool "{{{
-" no customizations yet
+" create a vim-align-like keyboard shortcut for Tabularize
+vmap <Leader>t :Tabularize /
 ""}}}
 " tagbar             ::: source code outline plugin"{{{
 nmap <F8> :TagbarToggle<CR>
