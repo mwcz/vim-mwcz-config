@@ -8,6 +8,7 @@
 " Plugins
 " ├── ack.vim
 " ├── ctrlp.vim
+" ├── emmet-vim
 " ├── gundo.vim
 " ├── kwbd.vim
 " ├── mustache.vim
@@ -28,7 +29,6 @@
 " ├── vim-markdown
 " ├── vim-startify
 " ├── vimwiki
-" ├── zencoding-vim
 " └── ZoomWin
 
 " The best color scheme in the world "{{{
@@ -51,6 +51,13 @@ let g:ctrlp_regexp = 1 " make regex mode the default
 let g:ctrlp_open_multiple_files = '1vjr'
 let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from the startify window
 set wildignore+=*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/target/*,*\\target\\*
+"}}}
+" emmet-vim          ::: zencoding plugin for Vim "{{{
+" the plugin formerly known as zencoding-vim.
+let g:user_emmet_settings = {
+\  'indentation' : '    '
+\}
+let g:user_emmet_mode='i'
 "}}}
 " gundo.vim          ::: browse your undo history tree"{{{
 " no customizations yet
@@ -186,35 +193,6 @@ let g:vimwiki_list = [{'path': '~/Dropbox/notes/',
                      \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_table_mappings = 0
 let g:vimwiki_conceallevel = 3
-"}}}
-" zencoding-vim      ::: zencoding plugin for Vim "{{{
-let g:user_zen_settings = {
-\  'indentation' : '    ',
-\  'perl' : {
-\    'aliases' : {
-\      'req' : 'require '
-\    },
-\    'snippets' : {
-\      'use' : "use strict\nuse warnings\n\n",
-\      'warn' : "warn \"|\";",
-\    }
-\  }
-\}
-" remove all the normal-mode <C-Y> commands because <C-Y> in vim scrolls up
-" one line and I use that frequently.  Silly of them to use <C-Y>...
-"unmapping didn't work because zencoding establishes mappings after vimrc runs
-"unmap <C-Y>A
-"unmap <C-Y>a
-"unmap <C-Y>k
-"unmap <C-Y>j
-"unmap <C-Y>/
-"unmap <C-Y>i
-"unmap <C-Y>N
-"unmap <C-Y>n
-"unmap <C-Y>D
-"unmap <C-Y>d
-"unmap <C-Y>,
-
 "}}}
 " ZoomWin            ::: zoom buffers to fill the entire screen"{{{
 " no customizations yet
