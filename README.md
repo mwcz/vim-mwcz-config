@@ -8,6 +8,7 @@ The vimrc is best viewed within vim itself.  Otherwise the folds won't be visibl
     Plugins
     ├── ack.vim
     ├── ctrlp.vim
+    ├── emmet-vim
     ├── gundo.vim
     ├── kwbd.vim
     ├── mustache.vim
@@ -28,5 +29,4 @@ The vimrc is best viewed within vim itself.  Otherwise the folds won't be visibl
     ├── vim-markdown
     ├── vim-startify
     ├── vimwiki
-    ├── zencoding-vim
     └── ZoomWin
