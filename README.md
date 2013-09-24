@@ -3,6 +3,8 @@ My Vim configuration
 
 A most delicious vim configuration.
 
+![vimrc screenshot](https://raw.github.com/mwcz/vim-mwcz-config/master/screenshot_vimrc.png)
+
 The vimrc is best viewed within vim itself.  Otherwise the folds won't be visible and the file will look cluttered.  With folds, it's exceedingly readable.
 
     Plugins
