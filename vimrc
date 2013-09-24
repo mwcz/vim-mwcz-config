@@ -41,6 +41,7 @@ syn on
 
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
 let g:ackprg="ack -H --nocolor --nogroup --column"
+nmap <Leader>f :Ack 
 "}}}
 " ctrlp.vim          ::: open files quickly by typing a few letters of their name"{{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
