@@ -470,6 +470,10 @@ noremap <Leader>sn :setlocal nospell<CR>
 " use kj to exit insert mode.  faster than escape "{{{
 inoremap kj <Esc>
 "}}}
+" preview a markdown document in the browser "{{{
+" requires the rubygems package 'bcat'
+nmap <Leader>md :!markdown "%" <bar> bcat &<CR>
+"}}}
 " reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
 " powerline/airline
 set ttimeoutlen=50
