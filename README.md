@@ -30,5 +30,6 @@ The vimrc is best viewed within vim itself.  Otherwise the folds won't be visibl
     ├── vim-less
     ├── vim-markdown
     ├── vim-startify
+    ├── vim-surround
     ├── vimwiki
     └── ZoomWin

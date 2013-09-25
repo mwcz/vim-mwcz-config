@@ -28,6 +28,7 @@
 " ├── vim-less
 " ├── vim-markdown
 " ├── vim-startify
+" ├── vim-surround
 " ├── vimwiki
 " └── ZoomWin
 
