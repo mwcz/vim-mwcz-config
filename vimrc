@@ -256,7 +256,10 @@ set incsearch "}}}
 set ignorecase
 set smartcase "}}}
 " Maintain 3 lines of context above or below "{{{
-set scrolloff=3 "}}}
+set scrolloff=3
+" and 5 columns of context to either side
+set sidescrolloff=5
+"}}}
 " make filename completion more like bash "{{{
 set wildmode=longest,list
 " }}}
@@ -337,8 +340,6 @@ au Bufread,BufNewFile *.as set filetype=actionscript "}}}
 set relativenumber "}}}
 " set the default encoding "{{{
 set encoding=utf-8 "}}}
-" autoindent please "{{{
-set autoindent "}}}
 " automatically read in file changes when launched from Eclipse "{{{
 " as an external tool.  External tool configuration configuration
 " options I use are:
@@ -435,12 +436,18 @@ inoremap <Leader><Tab> <F11>,
 "}}}
 " allow intelligent autocompletion of css selector names "{{{
 autocmd FileType css,scss,less set iskeyword=@,48-57,_,-,?,!,192-255 "}}}
-" use Ctrl+j and Ctrl+k to navigate autocomplete lists "{{{
+" use Ctrl+j and Ctrl+k to navigate autocomplete augrouplists "{{{
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>" "}}}
 " {{{ Buffer prev/next commands
 nnoremap <S-h> :bprev<CR>
 nnoremap <S-l> :bnext<CR>
+"}}}
+" don't inc/dec octal numbers {{{
+set nrformats-=octal
+"}}}
+" use wildmenu {{{
+set wildmenu
 "}}}
 " {{{ Spellcheck mappings
 noremap <Leader>se :setlocal spell spelllang=en_us<CR>
@@ -455,6 +462,7 @@ nmap <Leader>md :!markdown "%" <bar> bcat &<CR>
 "}}}
 " reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
 " powerline/airline
+set ttimeout
 set ttimeoutlen=50
 ""}}}
 
