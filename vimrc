@@ -39,6 +39,7 @@ let g:zenburn_high_Contrast = 1  " more contrast
 "}}}
 " Turn on syntax highlighting "{{{
 syn on
+autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
 "}}}
 
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
