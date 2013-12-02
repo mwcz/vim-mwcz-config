@@ -170,8 +170,8 @@ let g:startify_files_number = 9
 " http://www.patorjk.com/software/taag/#p=testall&f=Graffiti&t=Vim%207.4%0A
 " Use font 'Larry 3D'
 let g:startify_custom_header = [ 
-            \ '     __  __                            ________     __ __      ',
-            \ '    /\ \/\ \    __                    /\____   \   /\ \\ \     ',
+            \ '     __  __                            _______      __ __      ',
+            \ '    /\ \/\ \    __                    /\___   \    /\ \\ \     ',
             \ '    \ \ \ \ \  /\_\     ___ ___       \/___/  /    \ \ \\ \    ',
             \ '     \ \ \ \ \ \/\ \   / __` __`\         /  /      \ \ \\ \__ ',
             \ '      \ \ \_/ \ \ \ \ /\ \/\ \/\ \       /  /    __  \ \__  __\',
