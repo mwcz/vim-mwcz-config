@@ -276,11 +276,12 @@ set wildmode=longest,list
 " these characers are not shown unless `set list` is run
 " because I don't want them on by default.  they're clutter,
 " but can be helpful sometimes.
-set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:˫\ 
+set listchars=trail:·,precedes:«,extends:»,eol:¬,tab:˫\ 
 " old tab char: ▸
-"
+" old tab char: ↲
 " override some zenburn colors to make listchars darker
-hi SpecialKey   term=bold ctermfg=238 guifg=#9ece9e guibg=#242424
+hi SpecialKey term=bold ctermfg=238 guifg=#9ece9e guibg=#242424
+hi Nontext    term=bold ctermfg=238 guifg=#9ece9e guibg=#242424
 set list
 "}}}
 " put backup/directory files in a place that isn't annoying "{{{
