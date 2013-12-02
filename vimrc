@@ -110,7 +110,7 @@ let g:syntastic_mode_map = { 'mode' : 'active',
 
 " disable java syntax checking (it couldn't find the pom)
 let g:syntastic_java_javac_executable = ''
-let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_javascript_checkers = ['jshint']
 "}}}
 " tabular            ::: powerful text alignment tool "{{{
 " create a vim-align-like keyboard shortcut for Tabularize
