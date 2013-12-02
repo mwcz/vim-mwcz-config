@@ -485,5 +485,10 @@ nmap <Leader>md :!markdown "%" <bar> bcat &<CR>
 set ttimeout
 set ttimeoutlen=50
 ""}}}
+" function for swapping spaces with tabs (SIGH, Ian, SIGH)"{{{
+function! IanTabs()
+    %s/^\(\s\+\)\?    /\1\t/g
+endfunction
+""}}}
 
 " vim: set foldmethod=marker:
