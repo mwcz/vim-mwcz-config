@@ -9,6 +9,7 @@
 " ├── ack.vim
 " ├── ctrlp.vim
 " ├── emmet-vim
+" ├── goyo.vim
 " ├── gundo.vim
 " ├── kwbd.vim
 " ├── mustache.vim
@@ -60,6 +61,13 @@ let g:user_emmet_settings = {
 \}
 let g:user_emmet_mode='i'
 "}}}
+" goyo.vim           ::: distraction-free writing plugin"{{{
+nmap <Leader>df :Goyo<CR>
+"g:goyo_width "(default: 80)
+"g:goyo_margin_top "(default: 4)
+"g:goyo_margin_bottom "(default: 4)
+"g:goyo_linenr "(default: 0)
+" }}}
 " gundo.vim          ::: browse your undo history tree"{{{
 " no customizations yet
 " }}}
