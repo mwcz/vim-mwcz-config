@@ -369,7 +369,8 @@ set laststatus=2 "}}}
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l "}}}
+nnoremap <C-l> <C-w>l
+"}}}
 " use <leader>w to remove all trailing whitespace from a file "{{{
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR> "}}}
 " give in/around support for various other characters besides the standard (, "{{{
