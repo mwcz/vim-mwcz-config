@@ -139,7 +139,7 @@ let g:tagbar_autoshowtag = 1 "
 " no customizations needed
 ""}}}
 " ultisnips          ::: a powerful code snippet utility"{{{
-" no customizations yet
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "./UltiSnip", "my-snippets"]
 ""}}}
 " vim-addon-mw-utils ::: vimscript utility library, used by other plugins"{{{
 " no customizations needed
@@ -587,6 +587,8 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " vastly speeds up macro processing time when running on many lines
 set lazyredraw
 " }}}
+
+
 
 
 " vim: set foldmethod=marker:
