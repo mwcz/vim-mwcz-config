@@ -9,8 +9,10 @@
 " ├── ack.vim
 " ├── ctrlp.vim
 " ├── emmet-vim
+" ├── foo.js
 " ├── goyo.vim
 " ├── gundo.vim
+" ├── investigate.vim
 " ├── kwbd.vim
 " ├── mustache.vim
 " ├── nerdcommenter
@@ -24,6 +26,7 @@
 " ├── vim-addon-mw-utils
 " ├── vim-airline
 " ├── vim-coloresque
+" ├── vim-exchange
 " ├── vim-fugitive
 " ├── vim-javascript
 " ├── vim-less
@@ -31,6 +34,7 @@
 " ├── vim-startify
 " ├── vim-surround
 " ├── vimwiki
+" ├── wildfire.vim
 " └── ZoomWin
 
 " The best color scheme in the world "{{{
@@ -53,7 +57,11 @@ let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_regexp = 1 " make regex mode the default
 let g:ctrlp_open_multiple_files = '1vjr'
 let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from the startify window
-set wildignore+=*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/target/*,*\\target\\*
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '_site'
+            \ }
+set wildignore+=*node_modules*,*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/output/*,*/target/*,*\\target\\*
+nnoremap <F3> :CtrlPBookmarkDir<cr>
 "}}}
 " emmet-vim          ::: zencoding plugin for Vim "{{{
 " the plugin formerly known as zencoding-vim.
@@ -63,7 +71,7 @@ let g:user_emmet_settings = {
 let g:user_emmet_mode='i'
 "}}}
 " goyo.vim           ::: distraction-free writing plugin"{{{
-nmap <Leader>df :Goyo<CR>
+nmap <Leader>df :set list!<CR>:Goyo<CR>
 "g:goyo_width "(default: 80)
 "g:goyo_margin_top "(default: 4)
 "g:goyo_margin_bottom "(default: 4)
@@ -71,6 +79,9 @@ nmap <Leader>df :Goyo<CR>
 " }}}
 " gundo.vim          ::: browse your undo history tree"{{{
 " no customizations yet
+" }}}
+" investigate.vim    ::: open documentation in browser"{{{
+nnoremap K :call investigate#Investigate()<cr>
 " }}}
 " kwbd.vim           ::: delete buffer without closing window "{{{
 nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
@@ -117,7 +128,12 @@ let g:syntastic_javascript_checkers = ['jshint']
 vmap <Leader>t :Tabularize /
 ""}}}
 " tagbar             ::: source code outline plugin"{{{
+" easy shortcut
 nmap <F8> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1 " move cursor to tagbar window when opened
+let g:tagbar_sort = 1 " sort tags alphabetically
+let g:tagbar_indent = 2
+let g:tagbar_autoshowtag = 1 " 
 ""}}}
 " tlib_vim           ::: vimscript utility library, used by other plugins"{{{
 " no customizations needed
@@ -132,6 +148,22 @@ nmap <F8> :TagbarToggle<CR>
 " no customizations yet
 ""}}}
 " vim-fugitive       ::: may very well be the best git wrapper of all time"{{{
+" fugitive bindings
+nnoremap <Leader>ga :Git add %:p<CR><CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gc :Gcommit -v -q<CR>
+nnoremap <Leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>ge :Gedit<CR>
+nnoremap <Leader>gr :Gread<CR>
+"nnoremap <Leader>gw :Gwrite<CR><CR>
+nnoremap <Leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <Leader>gp :Ggrep<Space>
+nnoremap <Leader>gm :Gmove<Space>
+nnoremap <Leader>gb :Git branch<Space>
+nnoremap <Leader>go :Git checkout<Space>
+"nnoremap <Leader>gps :Dispatch! git push<CR>
+"nnoremap <Leader>gpl :Dispatch! git pull<CR>
 " no customizations yet
 ""}}}
 " vim-javascript     ::: vastly improved JavaScript color coding"{{{
@@ -199,13 +231,22 @@ hi StartifySlash   ctermfg=236
 "hi StartifyFile    ctermfg=236
 ""}}}
 " vimwiki            ::: a personal wiki for Vim "{{{
-"let g:vimwiki_list = [{'path': '~/Dropbox/notes/', 
-                     "\ 'syntax': 'markdown', 'ext': '.md'}]
-"let g:vimwiki_table_mappings = 0
-"let g:vimwiki_conceallevel = 3
+let g:vimwiki_list = [{'path': '~/Dropbox/notes/', 
+                     \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_table_mappings = 0
+let g:vimwiki_conceallevel = 3
 "}}}
 " ZoomWin            ::: zoom buffers to fill the entire screen"{{{
 " no customizations yet
+""}}}
+" wildfire.vim       ::: quickly select the closest nested text objects "{{{
+" use '*' to mean 'all filetypes'
+" html and xml share the same text objects
+let g:wildfire_objects = {
+    \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
+    \ "html,xml,xhtml" : ["at"],
+    \ }
+
 ""}}}
 " vim-airline        ::: an improved and more beautiful statusline " {{{
 " remove separators
@@ -227,6 +268,10 @@ let g:airline_mode_map= {
       \ '' : 'V-BLOCK',
       \ }
 let g:airline_branch_prefix = '⎇  '
+" display open buffers
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
 "}}}
 
 
@@ -311,6 +356,10 @@ set expandtab " indent with spaces instead of tabs
 set tabstop=4 " use 4 spaces to indent
 set softtabstop=4
 set shiftwidth=4
+" now tell vim that I use two spaces after every sentence.  this allows
+" in/around commands to work better with sentences that contain punctuation.
+" thanks Steve Losh http://stevelosh.com/blog/2012/10/why-i-two-space/
+set cpo+=J
 "}}}
 " Indentation settings"{{{
 set autoindent
@@ -334,6 +383,8 @@ set cpoptions+=n
 set guioptions+=n "}}}
 " stop autowrapping dammit "{{{
 set tw=0 "}}}
+" don't wrap long lines "{{{
+set nowrap "}}}
 " copy/paste settings"{{{
 nmap <Leader>p "+
 set pastetoggle=<F12> " toggle pasting into vim while preserving text's original format
@@ -344,10 +395,12 @@ set hidden "}}}
 set cursorline
 set cursorcolumn
 "}}}
-" correct syntax highlighting for actionscript files "{{{
-au Bufread,BufNewFile *.as set filetype=actionscript "}}}
 " display relative line numbers (awesome!) "{{{
-set relativenumber "}}}
+set number " display line number of current line
+set relativenumber " display relative line numbers of other lines
+au InsertEnter * :set number norelativenumber " in insert mode, display raw line numbers
+au InsertLeave * :set number relativenumber   " in non-insert mode, display relative line numbers
+"}}}
 " set the default encoding "{{{
 set encoding=utf-8 "}}}
 " automatically read in file changes when launched from Eclipse "{{{
@@ -478,7 +531,7 @@ inoremap kj <Esc>
 "}}}
 " preview a markdown document in the browser "{{{
 " requires the rubygems package 'bcat'
-nmap <Leader>md :!markdown "%" <bar> bcat &<CR>
+nmap <Leader>md :!markdown "%" <bar> bcat 2>/dev/null &<CR><CR>
 "}}}
 " reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
 " powerline/airline
@@ -490,5 +543,50 @@ function! IanTabs()
     %s/^\(\s\+\)\?    /\1\t/g
 endfunction
 ""}}}
+" disable entering Ex mode"{{{
+nnoremap Q <Nop>
+""}}}
+" Swap default ':', '/' and '?' with cmdline-window equivalent."{{{
+" open commands and searches in a window which acts like a regular vim buffer.
+" provides the same convenience as regular command/search line, but with
+" standard vim text editing commands, and easy history
+"nnoremap : q:
+"xnoremap : q:
+"nnoremap / q/
+"xnoremap / q/
+"nnoremap ? q?
+"xnoremap ? q?
+"nnoremap q: :
+"xnoremap q: :
+"nnoremap q/ /
+"xnoremap q/ /
+"nnoremap q? ?
+"xnoremap q? ?"}}}
+" Enhanced command window {{{
+set cmdwinheight=3
+augroup command_window
+    autocmd!
+    " have <Ctrl-C> leave cmdline-window
+    autocmd CmdwinEnter * nnoremap <buffer> <C-c> :q\|echo ""<cr>
+    autocmd CmdwinEnter * inoremap <buffer> <C-c> <esc>:q\|echo ""<cr>
+    " start command line window in insert mode and no line numbers
+    autocmd CmdwinEnter * startinsert
+    autocmd CmdwinEnter * set nonumber
+    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+augroup END
+" }}}
+" Save more command history {{{
+set history=1000
+" }}}
+" Select pasted text with `gp` {{{
+" tip: `gv` selects the most recently selected text, while `gp` will select
+" the most recently pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" }}}
+" During a macro, only update the screen when the macro has finished {{{
+" vastly speeds up macro processing time when running on many lines
+set lazyredraw
+" }}}
+
 
 " vim: set foldmethod=marker:
