@@ -9,15 +9,13 @@
 " ├── ack.vim
 " ├── ctrlp.vim
 " ├── emmet-vim
-" ├── foo.js
 " ├── goyo.vim
 " ├── gundo.vim
 " ├── investigate.vim
 " ├── kwbd.vim
-" ├── mustache.vim
+" ├── limelight
 " ├── nerdcommenter
 " ├── nerdtree
-" ├── sexy_scroller.vim
 " ├── syntastic
 " ├── tabular
 " ├── tagbar
@@ -31,6 +29,7 @@
 " ├── vim-javascript
 " ├── vim-less
 " ├── vim-markdown
+" ├── vim-mutt-aliases-plugin
 " ├── vim-startify
 " ├── vim-surround
 " ├── vimwiki
@@ -60,7 +59,8 @@ let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from
 let g:ctrlp_custom_ignore = {
             \ 'dir': '_site'
             \ }
-set wildignore+=*node_modules*,*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/output/*,*/target/*,*\\target\\*
+let g:ctrlp_follow_symlinks = 1
+set wildignore+=*.pyc,*node_modules*,*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/output/*,*/target/*,*\\target\\*
 nnoremap <F3> :CtrlPBookmarkDir<cr>
 "}}}
 " emmet-vim          ::: zencoding plugin for Vim "{{{
@@ -72,6 +72,34 @@ let g:user_emmet_mode='i'
 "}}}
 " goyo.vim           ::: distraction-free writing plugin"{{{
 nmap <Leader>df :set list!<CR>:Goyo<CR>
+function! g:goyo_before()
+    Limelight
+    set list!
+    set wrap
+    set linebreak
+    let b:quitting = 0
+    let b:quitting_bang = 0
+    autocmd QuitPre <buffer> let b:quitting = 1
+    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! g:goyo_after()
+    Limelight!
+    set nolist!
+    set nowrap
+    set nolinebreak
+    " Quit Vim if this is the only remaining buffer
+    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+        if b:quitting_bang
+            qa!
+        else
+            qa
+        endif
+    endif
+endfunction
+
+let g:goyo_callbacks = [function('g:goyo_before'), function('g:goyo_after')]
+
 "g:goyo_width "(default: 80)
 "g:goyo_margin_top "(default: 4)
 "g:goyo_margin_bottom "(default: 4)
@@ -86,9 +114,18 @@ nnoremap K :call investigate#Investigate()<cr>
 " kwbd.vim           ::: delete buffer without closing window "{{{
 nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
 "}}}
-" mustache.vim       ::: syntax highlighting file for mustache and handlebars "{{{
-" no customizations yet
-" }}}
+" limelight          ::: distraction-free writing aid; blur nonactive paragraphs "{{{
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 244
+
+" Color name (:help gui-colors) or RGB color
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_conceal_guifg = '#777777'
+
+" Default: 0.5
+let g:limelight_default_coefficient = 0.1
+"}}}
 " nerdcommenter      ::: easily comment and uncomment code"{{{
 " no customizations yet
 ""}}}
@@ -97,22 +134,6 @@ nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
 " F2 opens/closes NERD Tree
 noremap <F2> :NERDTreeToggle<CR>
-"}}}
-" sexy_scroller.vim  ::: smooth scrolling within vim, good for pair programming "{{{
-" defaults
-"let g:SexyScroller_ScrollTime = 10
-"let g:SexyScroller_CursorTime = 0
-"let g:SexyScroller_MaxTime = 500
-"let g:SexyScroller_EasingStyle = 2
-"let g:SexyScroller_DetectPendingKeys = 1
-" eyecandy
-let g:SexyScroller_ScrollTime = 20
-let g:SexyScroller_CursorTime = 0
-let g:SexyScroller_MaxTime = 1200
-let g:SexyScroller_EasingStyle = 3
-let g:SexyScroller_DetectPendingKeys = 1
-" STOP IT (by default :)
-let g:SexyScroller_Enabled = 0
 "}}}
 " syntastic          ::: automatically run linting utilities on code " {{{
 let g:syntastic_mode_map = { 'mode' : 'active',
@@ -175,6 +196,9 @@ nnoremap <Leader>go :Git checkout<Space>
 ""}}}
 " vim-markdown       ::: add syntax hilighting and matching rules for Markdown"{{{
 let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
+""}}}
+" vim-mutt-aliases   ::: autocomplete from mutt aliases file"{{{
+" no config yet
 ""}}}
 " vim-powerline      ::: an improved and more beautiful statusline"{{{
 
@@ -315,7 +339,7 @@ set scrolloff=3
 set sidescrolloff=5
 "}}}
 " make filename completion more like bash "{{{
-set wildmode=longest,list
+set wildmode=list:longest,full
 " }}}
 " whitespace characters"{{{
 " these characers are not shown unless `set list` is run
@@ -531,7 +555,8 @@ inoremap kj <Esc>
 "}}}
 " preview a markdown document in the browser "{{{
 " requires the rubygems package 'bcat'
-nmap <Leader>md :!markdown "%" <bar> bcat 2>/dev/null &<CR><CR>
+" nmap <Leader>md :!markdown "%" <bar> bcat 2>/dev/null &<CR><CR>
+nmap <Leader>md :!echo "$(cat ~/notes/header.html)" "$(markdown '%')" "$(cat ~/notes/footer.html)" <bar> bcat 2>/dev/null &<CR><CR>
 "}}}
 " reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
 " powerline/airline
@@ -587,8 +612,5 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " vastly speeds up macro processing time when running on many lines
 set lazyredraw
 " }}}
-
-
-
 
 " vim: set foldmethod=marker:
