@@ -610,5 +610,9 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " vastly speeds up macro processing time when running on many lines
 set lazyredraw
 " }}}
+" Only syntax highlight the first X columns {{{
+" This vastly speeds up vim when using files with VERY long lines
+set synmaxcol=255
+" }}}
 
 " vim: set foldmethod=marker:
