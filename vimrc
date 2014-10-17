@@ -14,7 +14,6 @@
 " ├── gundo.vim
 " ├── investigate.vim
 " ├── kwbd.vim
-" ├── limelight.vim
 " ├── my-snippets
 " ├── nerdtree
 " ├── syntastic
@@ -78,8 +77,7 @@ let g:user_emmet_mode='i'
 "}}}
 " goyo.vim           ::: distraction-free writing plugin"{{{
 nmap <Leader>df :set list!<CR>:Goyo<CR>
-function! g:goyo_before()
-    Limelight
+function! g:GoyoBefore()
     set list!
     set wrap
     set linebreak
@@ -89,8 +87,7 @@ function! g:goyo_before()
     cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 endfunction
 
-function! g:goyo_after()
-    Limelight!
+function! g:GoyoAfter()
     set nolist!
     set nowrap
     set nolinebreak
@@ -104,7 +101,8 @@ function! g:goyo_after()
     endif
 endfunction
 
-let g:goyo_callbacks = [function('g:goyo_before'), function('g:goyo_after')]
+let g:goyo_linenr = 1
+let g:goyo_callbacks = [function('g:GoyoBefore'), function('g:GoyoAfter')]
 
 "g:goyo_width "(default: 80)
 "g:goyo_margin_top "(default: 4)
@@ -119,18 +117,6 @@ nnoremap K :call investigate#Investigate()<cr>
 " }}}
 " kwbd.vim           ::: delete buffer without closing window "{{{
 nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
-"}}}
-" limelight          ::: distraction-free writing aid; blur nonactive paragraphs "{{{
-" Color name (:help cterm-colors) or ANSI code
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 244
-
-" Color name (:help gui-colors) or RGB color
-let g:limelight_conceal_guifg = 'DarkGray'
-let g:limelight_conceal_guifg = '#777777'
-
-" Default: 0.5
-let g:limelight_default_coefficient = 0.1
 "}}}
 " nerdcommenter      ::: easily comment and uncomment code"{{{
 " no customizations yet
