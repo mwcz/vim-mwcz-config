@@ -179,6 +179,9 @@ nnoremap <Leader>go :Git checkout<Space>
 "nnoremap <Leader>gpl :Dispatch! git pull<CR>
 " no customizations yet
 ""}}}
+" vim-gitgutter      ::: display +++/--- in left column"{{{
+highlight clear SignColumn " make +++/--- column have same bg as number colum
+""}}}
 " vim-javascript     ::: vastly improved JavaScript color coding"{{{
 " no customizations yet
 " also the customizations listed in the README don't seem to work
@@ -343,6 +346,9 @@ set listchars=trail:·,precedes:«,extends:»,eol:¬,tab:˫\
 " override some zenburn colors to make listchars darker
 hi SpecialKey term=bold ctermfg=238 guifg=#9ece9e guibg=#242424
 hi Nontext    term=bold ctermfg=238 guifg=#9ece9e guibg=#242424
+" override some more zenburn to make the backgrounds of line-number col match
+" normal bg
+hi LineNr ctermfg=240 ctermbg=234
 set list
 "}}}
 " put backup/directory files in a place that isn't annoying "{{{
