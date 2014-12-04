@@ -126,7 +126,7 @@ nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
 ""}}}
 " nerdtree           ::: a file tree browser "{{{
 " <leader>n opens NERD Tree
-nnoremap <leader>n :NERDTreeFind<CR>
+nnoremap <leader>f :NERDTreeFind<CR>
 " F2 opens/closes NERD Tree
 noremap <F2> :NERDTreeToggle<CR>
 "}}}
