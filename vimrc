@@ -616,7 +616,7 @@ set lazyredraw
 " }}}
 " Only syntax highlight the first X columns {{{
 " This vastly speeds up vim when using files with VERY long lines
-set synmaxcol=255
+set synmaxcol=2048
 " }}}
 
 " vim: set foldmethod=marker:
