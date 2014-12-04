@@ -618,5 +618,8 @@ set lazyredraw
 " This vastly speeds up vim when using files with VERY long lines
 set synmaxcol=2048
 " }}}
+" Move visual block"{{{
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv"}}}
 
 " vim: set foldmethod=marker:
