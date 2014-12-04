@@ -118,6 +118,9 @@ nnoremap K :call investigate#Investigate()<cr>
 " kwbd.vim           ::: delete buffer without closing window "{{{
 nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
 "}}}
+" NarrowRegion       ::: isolate a portion of a file for editing"{{{
+" no configs yet
+""}}}
 " nerdcommenter      ::: easily comment and uncomment code"{{{
 " no customizations yet
 ""}}}
