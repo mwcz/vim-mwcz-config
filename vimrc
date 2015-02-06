@@ -133,12 +133,18 @@ noremap <F2> :NERDTreeToggle<CR>
 " syntastic          ::: automatically run linting utilities on code " {{{
 let g:syntastic_mode_map = { 'mode' : 'active',
                            \ 'active_filetypes' : ['javascript'],
-                           \ 'passive_filetypes' : ['python'] }
+                           \ 'passive_filetypes' : ['python', 'rust'] }
 
 " disable java syntax checking (it couldn't find the pom)
 let g:syntastic_java_javac_executable = ''
 let g:syntastic_javascript_checkers = ['jshint']
 nnoremap <Leader>e :Errors<CR>
+function! SynOff()
+    let g:syntastic_quiet_messages = { "level": "warnings" }
+endfunction
+function! SynOn()
+    let g:syntastic_quiet_messages = {}
+endfunction
 "}}}
 " tabular            ::: powerful text alignment tool "{{{
 " create a vim-align-like keyboard shortcut for Tabularize
@@ -573,23 +579,22 @@ endfunction
 " disable entering Ex mode"{{{
 nnoremap Q <Nop>
 ""}}}
-" Swap default ':', '/' and '?' with cmdline-window equivalent."{{{
+" Enhanced command window {{{
 " open commands and searches in a window which acts like a regular vim buffer.
 " provides the same convenience as regular command/search line, but with
 " standard vim text editing commands, and easy history
-"nnoremap : q:
-"xnoremap : q:
-"nnoremap / q/
-"xnoremap / q/
-"nnoremap ? q?
-"xnoremap ? q?
-"nnoremap q: :
-"xnoremap q: :
-"nnoremap q/ /
-"xnoremap q/ /
-"nnoremap q? ?
-"xnoremap q? ?"}}}
-" Enhanced command window {{{
+nnoremap : :<C-F>
+xnoremap : :<C-F>
+nnoremap / /<C-F>
+xnoremap / /<C-F>
+nnoremap ? ?<C-F>
+xnoremap ? ?<C-F>
+" nnoremap q: :
+" xnoremap q: :
+" nnoremap q/ /
+" xnoremap q/ /
+" nnoremap q? ?
+" xnoremap q? ?
 set cmdwinheight=3
 augroup command_window
     autocmd!
@@ -598,7 +603,6 @@ augroup command_window
     autocmd CmdwinEnter * inoremap <buffer> <C-c> <esc>:q\|echo ""<cr>
     " start command line window in insert mode and no line numbers
     autocmd CmdwinEnter * startinsert
-    autocmd CmdwinEnter * set nonumber
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 augroup END
 " }}}
@@ -620,6 +624,14 @@ set synmaxcol=2048
 " }}}
 " Move visual block"{{{
 vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv"}}}
+vnoremap K :m '<-2<CR>gv=gv
+"}}}
+" Create new splits to the right, and vsplits below"{{{
+set splitright
+set splitbelow
+""}}}
+" Give a shorter message when an existing swap file is found"{{{
+set shortmess+=A
+"}}}
 
 " vim: set foldmethod=marker:
