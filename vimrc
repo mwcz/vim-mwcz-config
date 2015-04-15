@@ -5,41 +5,51 @@
 "                                                                            "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
+
 " Plugins
 " ├── ack.vim
 " ├── ctrlp.vim
-" ├── disabled
+" ├── diffchar.vim
 " ├── emmet-vim
+" ├── fuhgit
+" ├── glsl.vim
 " ├── goyo.vim
 " ├── gundo.vim
 " ├── investigate.vim
 " ├── kwbd.vim
 " ├── my-snippets
 " ├── nerdtree
+" ├── NrrwRgn
+" ├── rust.vim
+" ├── smartpairs.vim
 " ├── syntastic
 " ├── tabular
-" ├── tagbar
 " ├── tern_for_vim
-" ├── TextObjectify
 " ├── tlib_vim
 " ├── ultisnips
 " ├── vim-addon-mw-utils
 " ├── vim-airline
 " ├── vim-angular
+" ├── vim-atom-dark
+" ├── vim-coffee
 " ├── vim-commentary
 " ├── vim-exchange
 " ├── vim-fugitive
 " ├── vim-gitgutter
-" ├── vim-multiple-cursors
+" ├── vim-instant-markdown
 " ├── vim-mutt-aliases-plugin
 " ├── vim-polyglot
 " ├── vim-repeat
 " ├── vim-snippets
 " ├── vim-startify
 " ├── vim-surround
+" ├── vim-swoop
 " ├── vimwiki
 " ├── wildfire.vim
 " └── ZoomWin
+
+
 
 " The best color scheme in the world "{{{
 colorscheme zenburn
@@ -51,8 +61,9 @@ autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
 "}}}
 
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
-let g:ackprg="ack -H --nocolor --nogroup --column"
-nmap <Leader>f :Ack 
+let g:ackprg="ack -H --nocolor --nogroup --column --nominjs"
+" let g:ackprg = 'ag --nogroup --nocolor --column' " use ag instead of ack
+nmap <Leader>ag :Ack 
 "}}}
 " ctrlp.vim          ::: open files quickly by typing a few letters of their name"{{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -60,6 +71,11 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_regexp = 1 " make regex mode the default
 let g:ctrlp_open_multiple_files = '1vjr'
+" honor gitignore
+let g:ctrlp_user_command = [
+    \ '.git', 'cd %s && git ls-files . -co --exclude-standard',
+    \ 'find %s -type f'
+    \ ]
 let g:ctrlp_reuse_window = 'startify' " prevent ctrlp from creating a split from the startify window
 let g:ctrlp_custom_ignore = {
             \ 'dir': '_site'
@@ -85,12 +101,14 @@ function! g:GoyoBefore()
     let b:quitting_bang = 0
     autocmd QuitPre <buffer> let b:quitting = 1
     cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+    call DarkenOuterColumns()
 endfunction
 
 function! g:GoyoAfter()
     set nolist!
     set nowrap
     set nolinebreak
+    call DarkenOuterColumns()
     " Quit Vim if this is the only remaining buffer
     if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
         if b:quitting_bang
@@ -137,7 +155,9 @@ let g:syntastic_mode_map = { 'mode' : 'active',
 
 " disable java syntax checking (it couldn't find the pom)
 let g:syntastic_java_javac_executable = ''
-let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
 nnoremap <Leader>e :Errors<CR>
 function! SynOff()
     let g:syntastic_quiet_messages = { "level": "warnings" }
@@ -187,10 +207,13 @@ nnoremap <Leader>gb :Git branch<Space>
 nnoremap <Leader>go :Git checkout<Space>
 "nnoremap <Leader>gps :Dispatch! git push<CR>
 "nnoremap <Leader>gpl :Dispatch! git pull<CR>
-" no customizations yet
+set diffopt+=vertical
 ""}}}
 " vim-gitgutter      ::: display +++/--- in left column"{{{
 highlight clear SignColumn " make +++/--- column have same bg as number colum
+""}}}
+" vim-instant-markdown ::: instant preview of markdown files"{{{
+let g:instant_markdown_autostart = 0
 ""}}}
 " vim-javascript     ::: vastly improved JavaScript color coding"{{{
 " no customizations yet
@@ -601,6 +624,7 @@ augroup command_window
     " have <Ctrl-C> leave cmdline-window
     autocmd CmdwinEnter * nnoremap <buffer> <C-c> :q\|echo ""<cr>
     autocmd CmdwinEnter * inoremap <buffer> <C-c> <esc>:q\|echo ""<cr>
+    autocmd CmdwinEnter * inoremap w' w
     " start command line window in insert mode and no line numbers
     autocmd CmdwinEnter * startinsert
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -632,6 +656,18 @@ set splitbelow
 ""}}}
 " Give a shorter message when an existing swap file is found"{{{
 set shortmess+=A
+"}}}
+" Highlight all columns 80 and over"{{{
+function! DarkenOuterColumns()
+    " disable temporarily, until I can figure out why the foreground color is
+    " lost when this is run.
+    " if (exists('+colorcolumn'))
+    "     set colorcolumn=80
+    "     highlight ColorColumn ctermbg=233
+    "     execute "set colorcolumn=" . join(range(81,335), ',')
+    " endif
+endfunction
+call DarkenOuterColumns()
 "}}}
 
 " vim: set foldmethod=marker:
