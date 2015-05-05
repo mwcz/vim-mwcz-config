@@ -38,7 +38,6 @@
 " ├── vim-fugitive
 " ├── vim-gitgutter
 " ├── vim-instant-markdown
-" ├── vim-mutt-aliases-plugin
 " ├── vim-polyglot
 " ├── vim-repeat
 " ├── vim-snippets
@@ -224,9 +223,6 @@ let g:instant_markdown_autostart = 0
 ""}}}
 " vim-markdown       ::: add syntax hilighting and matching rules for Markdown"{{{
 let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
-""}}}
-" vim-mutt-aliases   ::: autocomplete from mutt aliases file"{{{
-" no config yet
 ""}}}
 " vim-powerline      ::: an improved and more beautiful statusline"{{{
 
