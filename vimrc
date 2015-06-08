@@ -224,22 +224,6 @@ let g:instant_markdown_autostart = 0
 " vim-markdown       ::: add syntax hilighting and matching rules for Markdown"{{{
 let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
 ""}}}
-" vim-powerline      ::: an improved and more beautiful statusline"{{{
-
-" When you’re pressing Escape to leave insert mode in the terminal, it will by
-" default take a second or another keystroke to leave insert mode completely
-" and update the statusline. If you find this annoying, you can add the
-" following snippet to your vimrc to escape insert mode immediately:
-"if ! has('gui_running')
-    "set ttimeoutlen=10
-    "augroup FastEscape
-        "autocmd!
-        "au InsertEnter * set timeoutlen=0
-        "au InsertLeave * set timeoutlen=1000
-    "augroup END
-"endif
-
-""}}}
 " vim-startify       ::: a start screen for Vim "{{{
 let g:startify_bookmarks = [ 
             \ '~/Dropbox/configs/vim/vimrc',
@@ -298,13 +282,20 @@ let g:wildfire_objects = {
 ""}}}
 " vim-airline        ::: an improved and more beautiful statusline " {{{
 " remove separators
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 let g:airline_left_sep=' '
 let g:airline_right_sep=' '
-let g:airline_enable_branch=1
-let g:airline_enable_syntastic=1
+" let g:airline_enable_branch=1
+let g:airline#extensions#branch#enabled=1
+" disable syntastic for now
+" let g:airline_enable_syntastic=0
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='bubblegum'
+" let g:airline_theme='zenburn'
+
 let g:airline_powerline_fonts=0
 let g:airline_mode_map= {
       \ 'n'  : 'NORMAL ',
@@ -315,7 +306,15 @@ let g:airline_mode_map= {
       \ 'c'  : 'CMD    ',
       \ '' : 'V-BLOCK',
       \ }
-let g:airline_branch_prefix = '⎇  '
+let g:airline_symbols.branch = '⎇  '
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+
 " display open buffers
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
