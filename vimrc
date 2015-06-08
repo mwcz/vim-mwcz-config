@@ -664,5 +664,11 @@ function! DarkenOuterColumns()
 endfunction
 call DarkenOuterColumns()
 "}}}
+" grunt build shortcuts"{{{
+nmap <Leader>bb :!grunt build:dev<CR><CR>
+"}}}
+" autocomplete settings"{{{
+set complete=.,w,b,t,i
+"}}}
 
 " vim: set foldmethod=marker:
