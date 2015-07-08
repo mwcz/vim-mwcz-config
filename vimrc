@@ -154,9 +154,9 @@ let g:syntastic_mode_map = { 'mode' : 'active',
 
 " disable java syntax checking (it couldn't find the pom)
 let g:syntastic_java_javac_executable = ''
-" let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
+let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_javascript_checkers = ['jsxhint']
+" let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
 nnoremap <Leader>e :Errors<CR>
 function! SynOff()
     let g:syntastic_quiet_messages = { "level": "warnings" }
@@ -290,7 +290,7 @@ let g:airline_right_sep=' '
 " let g:airline_enable_branch=1
 let g:airline#extensions#branch#enabled=1
 " disable syntastic for now
-" let g:airline_enable_syntastic=0
+let g:airline#extensions#syntastic#enabled=1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_theme='bubblegum'
@@ -306,7 +306,7 @@ let g:airline_mode_map= {
       \ 'c'  : 'CMD    ',
       \ '' : 'V-BLOCK',
       \ }
-let g:airline_symbols.branch = '⎇  '
+let g:airline_symbols.branch = '⎇ '
 
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
