@@ -58,6 +58,8 @@ let g:zenburn_high_Contrast = 1  " more contrast
 syn on
 autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
 "}}}
+" Turn on file-type plugins "{{{
+filetype plugin indent on "}}}
 
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
 let g:ackprg="ack -H --nocolor --nogroup --column --nominjs"
@@ -213,7 +215,8 @@ highlight clear SignColumn " make +++/--- column have same bg as number colum
 ""}}}
 " vim-instant-markdown ::: instant preview of markdown files"{{{
 let g:instant_markdown_autostart = 0
-""}}}
+nmap <Leader>md :InstantMarkdownPreview<CR>
+"}}}
 " vim-javascript     ::: vastly improved JavaScript color coding"{{{
 " no customizations yet
 " also the customizations listed in the README don't seem to work
@@ -334,8 +337,6 @@ set nocompatible "}}}
 " don't show current mode (powerline shows it more prettier) "{{{
 set noshowmode
 "}}}
-" Turn on file-type plugins "{{{
-filetype plugin indent on "}}}
 " Allow CFML nonstandard comments <!--- ---> "{{{
 let html_wrong_comments = 1 "}}}
 " Terminus is a pretty font "{{{
@@ -578,11 +579,6 @@ noremap <Leader>sn :setlocal nospell<CR>
 "}}}
 " use kj to exit insert mode.  faster than escape "{{{
 inoremap kj <Esc>
-"}}}
-" preview a markdown document in the browser "{{{
-" requires the rubygems package 'bcat'
-" nmap <Leader>md :!markdown "%" <bar> bcat 2>/dev/null &<CR><CR>
-nmap <Leader>md :!echo "$(cat ~/notes/header.html)" "$(markdown '%')" "$(cat ~/notes/footer.html)" <bar> bcat 2>/dev/null &<CR><CR>
 "}}}
 " reduce timeout when exiting insert mode, mostly/only noticeable in"{{{
 " powerline/airline
