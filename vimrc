@@ -44,6 +44,7 @@
 " ├── vim-snippets
 " ├── vim-startify
 " ├── vim-surround
+" ├── vim-tmux-navigator
 " ├── vim-vinegar
 " ├── wildfire.vim
 " └── ZoomWin
@@ -60,9 +61,9 @@ autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
 filetype plugin indent on "}}}
 
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
-let g:ackprg="ack -H --nocolor --nogroup --column --nominjs"
+" let g:ackprg="ack -H --nocolor --nogroup --column --nominjs"
 " let g:ackprg = 'ag --nogroup --nocolor --column' " use ag instead of ack
-nmap <Leader>ag :Ack 
+" nmap <Leader>ag :Ack 
 "}}}
 " ctrlp.vim          ::: open files quickly by typing a few letters of their name"{{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -82,6 +83,15 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_follow_symlinks = 1
 set wildignore+=*.pyc,*node_modules*,*/build/*,*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,*/output/*,*/target/*,*\\target\\*
 nnoremap <F3> :CtrlPBookmarkDir<cr>
+"}}}
+" vim-tmux-navigator ::: easy split/pane navigation for tmux+vim "{{{
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+" nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 "}}}
 " emmet-vim          ::: zencoding plugin for Vim "{{{
 " the plugin formerly known as zencoding-vim.
@@ -190,7 +200,7 @@ let g:UltiSnipsSnippetDirectories=["my-snippets", "UltiSnips", "./UltiSnip"]
 " no customizations yet
 ""}}}
 " vim-dispatch       ::: async commands"{{{
-let g:FerretDispatch = 1
+" let g:FerretDispatch = 1
 ""}}}
 " vim-fugitive       ::: may very well be the best git wrapper of all time"{{{
 " fugitive bindings
@@ -472,10 +482,11 @@ set ruler "}}}
 " give the last window a status line always "{{{
 set laststatus=2 "}}}
 " make moving around split windows easier "{{{
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" commenting this out because vim-tmux-navigator handles these mappings
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-l> <C-w>l
 "}}}
 " use <leader>w to remove all trailing whitespace from a file "{{{
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR> "}}}
@@ -652,19 +663,23 @@ set shortmess+=A
 "}}}
 " Highlight all columns 80 and over"{{{
 function! DarkenOuterColumns()
-    " disable temporarily, until I can figure out why the foreground color is
-    " lost when this is run.
-    " if (exists('+colorcolumn'))
-    "     set colorcolumn=80
-    "     highlight ColorColumn ctermbg=233
-    "     execute "set colorcolumn=" . join(range(81,335), ',')
-    " endif
+    if (exists('+colorcolumn'))
+        set colorcolumn=80
+        highlight ColorColumn ctermbg=233
+        execute "set colorcolumn=" . join(range(81,335), ',')
+    endif
 endfunction
-call DarkenOuterColumns()
+" disable temporarily, until I can figure out why the foreground color is
+" lost when this is run.
+" call DarkenOuterColumns()
 "}}}
 " grunt build shortcuts"{{{
 nmap <Leader>bb :!grunt build:dev<CR><CR>
 "}}}
+" tmux settings"{{{
+" this fixes background color weirdness  while inside tmux
+set t_ut=
+""}}}
 " autocomplete settings"{{{
 set complete=.,w,b,t,i
 "}}}
