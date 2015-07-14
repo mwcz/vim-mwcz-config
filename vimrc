@@ -8,10 +8,11 @@
 
 
 " Plugins
-" ├── ack.vim
 " ├── ctrlp.vim
-" ├── diffchar.vim
+" ├── disabled
 " ├── emmet-vim
+" ├── ferret
+" ├── flatlandia
 " ├── fuhgit
 " ├── glsl.vim
 " ├── goyo.vim
@@ -21,6 +22,7 @@
 " ├── my-snippets
 " ├── nerdtree
 " ├── NrrwRgn
+" ├── papercolor-theme
 " ├── rust.vim
 " ├── smartpairs.vim
 " ├── syntastic
@@ -30,25 +32,21 @@
 " ├── ultisnips
 " ├── vim-addon-mw-utils
 " ├── vim-airline
-" ├── vim-angular
-" ├── vim-atom-dark
-" ├── vim-coffee
 " ├── vim-commentary
+" ├── vim-dispatch
 " ├── vim-exchange
 " ├── vim-fugitive
-" ├── vim-gitgutter
 " ├── vim-instant-markdown
+" ├── vim-javascript-syntax
 " ├── vim-polyglot
+" ├── vim-qlist
 " ├── vim-repeat
 " ├── vim-snippets
 " ├── vim-startify
 " ├── vim-surround
-" ├── vim-swoop
-" ├── vimwiki
+" ├── vim-vinegar
 " ├── wildfire.vim
 " └── ZoomWin
-
-
 
 " The best color scheme in the world "{{{
 colorscheme zenburn
@@ -190,6 +188,9 @@ let g:UltiSnipsSnippetDirectories=["my-snippets", "UltiSnips", "./UltiSnip"]
 ""}}}
 " vim-coloresque     ::: colorize CSS color names"{{{
 " no customizations yet
+""}}}
+" vim-dispatch       ::: async commands"{{{
+let g:FerretDispatch = 1
 ""}}}
 " vim-fugitive       ::: may very well be the best git wrapper of all time"{{{
 " fugitive bindings
