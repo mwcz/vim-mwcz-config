@@ -560,7 +560,8 @@ nnoremap ca> F>ct<
 nnoremap yi> T>yt<
 nnoremap ya> F>yt<
 nnoremap vi> T>vt<
-nnoremap va> F>vt< "}}}"}}}
+nnoremap va> F>vt< "}}}
+"}}}
 " I'm not sure what these are for anymore :] "{{{
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
@@ -674,7 +675,8 @@ endfunction
 " call DarkenOuterColumns()
 "}}}
 " grunt build shortcuts"{{{
-nmap <Leader>bb :!grunt build:dev<CR><CR>
+nmap <Leader>bb :Dispatch!<CR>
+autocmd FileType javascript let b:dispatch = 'grunt build:dev && beep'
 "}}}
 " tmux settings"{{{
 " this fixes background color weirdness  while inside tmux
