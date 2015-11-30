@@ -396,11 +396,12 @@ set list
 " put backup/directory files in a place that isn't annoying "{{{
 if has("unix")
   " create backup and directory dirs if they don't exist
-  silent !mkdir ~/.vim/backup    > /dev/null 2>&1
-  silent !mkdir ~/.vim/directory > /dev/null 2>&1
+  silent !mkdir ~/.vim-files           > /dev/null 2>&1
+  silent !mkdir ~/.vim-files/backup    > /dev/null 2>&1
+  silent !mkdir ~/.vim-files/directory > /dev/null 2>&1
   " use them
-  set backupdir=~/.vim/backup
-  set directory=~/.vim/directory
+  set backupdir=~/.vim-files/backup
+  set directory=~/.vim-files/directory
   let s:uname = system("uname")
   if s:uname == "Darwin"
     " Do Mac stuff here
