@@ -63,7 +63,8 @@ filetype plugin indent on "}}}
 " ack.vim            ::: programmer-friendly file contents search using `ack`"{{{
 " let g:ackprg="ack -H --nocolor --nogroup --column --nominjs"
 " let g:ackprg = 'ag --nogroup --nocolor --column' " use ag instead of ack
-" nmap <Leader>ag :Ack 
+let g:ackprg = 'ag --vimgrep'
+nmap <Leader>ag :Ack 
 "}}}
 " ctrlp.vim          ::: open files quickly by typing a few letters of their name"{{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
