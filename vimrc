@@ -241,9 +241,9 @@ let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
 ""}}}
 " vim-startify       ::: a start screen for Vim "{{{
 let g:startify_bookmarks = [ 
-            \ '~/Dropbox/configs/vim/vimrc',
-            \ '~/Dropbox/configs/vim/bundle/',
-            \ '/home/mwc/Dropbox/configs/vim/bundle/my-snippets/']
+            \ '~/ownCloud/configs/vim/vimrc',
+            \ '~/ownCloud/configs/vim/bundle/',
+            \ '~/ownCloud/configs/vim/bundle/my-snippets/']
 let g:startify_change_to_dir = 1 " automatically change to dir when selecting a file
 let g:startify_files_number = 9
 " http://www.patorjk.com/software/taag/#p=testall&f=Graffiti&t=Vim%207.4%0A
