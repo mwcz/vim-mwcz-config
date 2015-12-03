@@ -50,8 +50,8 @@
 " └── ZoomWin
 
 " The best color scheme in the world "{{{
-colorscheme zenburn
 let g:zenburn_high_Contrast = 1  " more contrast
+colorscheme zenburn
 "}}}
 " Turn on syntax highlighting "{{{
 syn on
