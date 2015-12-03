@@ -342,7 +342,11 @@ call pathogen#infect()
 call pathogen#helptags() "}}}
 " enable mousing in terminal"{{{
 set mouse=a
-set ttymouse=xterm2
+
+" nvim removed ttymouse, so only set it if we aren't in nvim
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 "}}}
 " Turn off vi compatibility mode "{{{
 set nocompatible "}}}
