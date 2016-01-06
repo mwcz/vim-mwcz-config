@@ -682,7 +682,7 @@ endfunction
 "}}}
 " grunt build shortcuts"{{{
 nmap <Leader>bb :Dispatch!<CR>
-autocmd FileType javascript let b:dispatch = 'grunt build:dev && beep'
+autocmd FileType javascript let b:dispatch = 'grunt build:dev && notify-send Grunt "Build complete"'
 "}}}
 " tmux settings"{{{
 " this fixes background color weirdness  while inside tmux
