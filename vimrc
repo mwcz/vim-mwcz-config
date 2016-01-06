@@ -691,5 +691,9 @@ set t_ut=
 " autocomplete settings"{{{
 set complete=.,w,b,t,i
 "}}}
+" save and load fold settings "{{{
+au BufWinLeave * silent! mkview
+au BufWinEnter * silent! loadview
+"}}}
 
 " vim: set foldmethod=marker:
