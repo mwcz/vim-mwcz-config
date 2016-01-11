@@ -233,6 +233,9 @@ nmap <Leader>md :InstantMarkdownPreview<CR>
 " no customizations yet
 " also the customizations listed in the README don't seem to work
 ""}}}
+" vim-polyglot       ::: improved syntax coloring for many languages"{{{
+let g:polyglot_disabled = ['javascript']
+""}}}
 " vim-less           ::: add syntax hilighting, indenting, etc for LESS"{{{
 " no customizations yet
 ""}}}
