@@ -10,6 +10,7 @@
 " Plugins
 " ├── ctrlp.vim
 " ├── disabled
+" ├── editorconfig.vim
 " ├── emmet-vim
 " ├── ferret
 " ├── flatlandia
@@ -17,11 +18,11 @@
 " ├── glsl.vim
 " ├── goyo.vim
 " ├── gundo.vim
-" ├── investigate.vim
 " ├── kwbd.vim
 " ├── my-snippets
 " ├── nerdtree
 " ├── NrrwRgn
+" ├── neomake
 " ├── papercolor-theme
 " ├── rust.vim
 " ├── smartpairs.vim
@@ -49,13 +50,19 @@
 " ├── wildfire.vim
 " └── ZoomWin
 
+" load bundles "{{{
+call pathogen#infect()
+call pathogen#helptags() "}}}
 " The best color scheme in the world "{{{
 let g:zenburn_high_Contrast = 1  " more contrast
+let g:zenburn_disable_Label_underline = 1
 colorscheme zenburn
+" colorscheme tender
 "}}}
 " Turn on syntax highlighting "{{{
-syn on
-autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
+" syn on
+syn enable
+"autocmd BufEnter * :syntax sync fromstart " highlight whole file on load
 "}}}
 " Turn on file-type plugins "{{{
 filetype plugin indent on "}}}
@@ -94,6 +101,10 @@ nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 " nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 "}}}
+" editorconfig.vim   ::: intra-editor formatting config, see http://editorconfig.org "{{{
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:EditorConfig_exec_path = '/home/mclayton/Dropbox/configs/vim/bundle/editorconfig-vim/plugin/editorconfig.py'
+"}}}
 " emmet-vim          ::: zencoding plugin for Vim "{{{
 " the plugin formerly known as zencoding-vim.
 let g:user_emmet_settings = {
@@ -111,14 +122,12 @@ function! g:GoyoBefore()
     let b:quitting_bang = 0
     autocmd QuitPre <buffer> let b:quitting = 1
     cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-    call DarkenOuterColumns()
 endfunction
 
 function! g:GoyoAfter()
     set nolist!
     set nowrap
     set nolinebreak
-    call DarkenOuterColumns()
     " Quit Vim if this is the only remaining buffer
     if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
         if b:quitting_bang
@@ -140,8 +149,8 @@ let g:goyo_callbacks = [function('g:GoyoBefore'), function('g:GoyoAfter')]
 " gundo.vim          ::: browse your undo history tree"{{{
 " no customizations yet
 " }}}
-" investigate.vim    ::: open documentation in browser"{{{
-nnoremap K :call investigate#Investigate()<cr>
+" vim-jsfmt          ::: auto-format javascript files on save"{{{
+let g:js_fmt_autosave = 1
 " }}}
 " kwbd.vim           ::: delete buffer without closing window "{{{
 nnoremap <silent> <Leader>bd :<C-u>Kwbd<CR>
@@ -158,23 +167,70 @@ nnoremap <leader>f :NERDTreeFind<CR>
 " F2 opens/closes NERD Tree
 noremap <F2> :NERDTreeToggle<CR>
 "}}}
+" neomake            ::: asynchronous :Make"{{{
+" let g:neomake_javascript_jshint_maker = {
+"     \ 'args': ['--verbose'],
+"     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+"     \ }
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" autocmd BufWritePost *.js update | Neomake
+"}}}
 " syntastic          ::: automatically run linting utilities on code " {{{
-let g:syntastic_mode_map = { 'mode' : 'active',
-                           \ 'active_filetypes' : ['javascript'],
-                           \ 'passive_filetypes' : ['python', 'rust'] }
 
-" disable java syntax checking (it couldn't find the pom)
-let g:syntastic_java_javac_executable = ''
-let g:syntastic_javascript_checkers = ['jshint']
-" let g:syntastic_javascript_checkers = ['jsxhint']
-" let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
-nnoremap <Leader>e :Errors<CR>
-function! SynOff()
-    let g:syntastic_quiet_messages = { "level": "warnings" }
-endfunction
-function! SynOn()
-    let g:syntastic_quiet_messages = {}
-endfunction
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+" javascript
+let g:syntastic_javascript_checkers = ['eslint']
+
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+
+" highlight link SyntasticErrorSign SignColumn
+" highlight link SyntasticWarningSign SignColumn
+" highlight link SyntasticStyleErrorSign SignColumn
+" highlight link SyntasticStyleWarningSign SignColumn
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_loc_list_height = 5
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_error_symbol = '❌'
+" let g:syntastic_style_error_symbol = '⁉️'
+" let g:syntastic_warning_symbol = '⚠️'
+" let g:syntastic_style_warning_symbol = '💩'
+" highlight link SyntasticErrorSign SignColumn
+" highlight link SyntasticWarningSign SignColumn
+" highlight link SyntasticStyleErrorSign SignColumn
+" highlight link SyntasticStyleWarningSign SignColumn
+
+" let g:syntastic_mode_map = { 'mode' : 'active',
+"                            \ 'active_filetypes' : ['javascript'],
+"                            \ 'passive_filetypes' : ['python', 'rust'] }
+
+" " disable java syntax checking (it couldn't find the pom)
+" let g:syntastic_java_javac_executable = ''
+" let g:syntastic_javascript_checkers = ['jshint']
+" " let g:syntastic_javascript_checkers = ['jsxhint']
+" " let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
+" nnoremap <Leader>e :Errors<CR>
+" function! SynOff()
+"     let g:syntastic_quiet_messages = { "level": "warnings" }
+" endfunction
+" function! SynOn()
+"     let g:syntastic_quiet_messages = {}
+" endfunction
 "}}}
 " tabular            ::: powerful text alignment tool "{{{
 " create a vim-align-like keyboard shortcut for Tabularize
@@ -193,6 +249,9 @@ let g:tagbar_autoshowtag = 1 "
 ""}}}
 " ultisnips          ::: a powerful code snippet utility"{{{
 let g:UltiSnipsSnippetDirectories=["my-snippets", "UltiSnips", "./UltiSnip"]
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 ""}}}
 " vim-addon-mw-utils ::: vimscript utility library, used by other plugins"{{{
 " no customizations needed
@@ -234,7 +293,12 @@ nmap <Leader>md :InstantMarkdownPreview<CR>
 " also the customizations listed in the README don't seem to work
 ""}}}
 " vim-polyglot       ::: improved syntax coloring for many languages"{{{
-let g:polyglot_disabled = ['javascript']
+let g:polyglot_disabled = []
+" this includes config for plugins included via polyglot
+let g:html5_event_handler_attributes_complete=0
+let g:html5_rdfa_attributes_complete = 0
+let g:html5_microdata_attributes_complete = 0
+
 ""}}}
 " vim-less           ::: add syntax hilighting, indenting, etc for LESS"{{{
 " no customizations yet
@@ -244,32 +308,27 @@ let g:vim_markdown_folding_disabled=1 " disable too-aggressive (IMHO) folding
 ""}}}
 " vim-startify       ::: a start screen for Vim "{{{
 let g:startify_bookmarks = [ 
-            \ '~/ownCloud/configs/vim/vimrc',
-            \ '~/ownCloud/configs/vim/bundle/',
-            \ '~/ownCloud/configs/vim/bundle/my-snippets/']
+            \ '~/Dropbox/configs/vim/vimrc',
+            \ '~/Dropbox/configs/vim/bundle/',
+            \ '~/Dropbox/configs/vim/bundle/my-snippets/']
 let g:startify_change_to_dir = 1 " automatically change to dir when selecting a file
 let g:startify_files_number = 9
 " http://www.patorjk.com/software/taag/#p=testall&f=Graffiti&t=Vim%207.4%0A
 " Use font 'Larry 3D'
-let g:startify_custom_header = [ 
-            \ '     __  __                            _______      __ __      ',
-            \ '    /\ \/\ \    __                    /\___   \    /\ \\ \     ',
-            \ '    \ \ \ \ \  /\_\     ___ ___       \/___/  /    \ \ \\ \    ',
-            \ '     \ \ \ \ \ \/\ \   / __` __`\         /  /      \ \ \\ \__ ',
-            \ '      \ \ \_/ \ \ \ \ /\ \/\ \/\ \       /  /    __  \ \__  __\',
-            \ '       \ `\___/  \ \_\\ \_\ \_\ \_\     /\_/    /\_\  \/_/\_\_/',
-            \ '        `\/__/    \/_/ \/_/\/_/\/_/     \//     \/_/     \/_/  ',
+let g:startify_custom_header = [
+            \ '    __________________________________________________',
+            \ '   |==================================================|',
+            \ '   | __  ___________  ___________            AMIGA == |',
+            \ '   |[_j  L_I_I_I_I_j  L_I_I_I_I_j            ~~~~~ == |',
+            \ '   |________________________________ _______ ______==_|',
+            \ '   |[__I_I_I_I_I_I_I_I_I_I_I_I_I_I_] [__I__] [_I_I_I_]|',
+            \ '   |[___I_I_I_I_I_I_I_I_I_I_I_I_]  |    _    [_I_I_I_]|',
+            \ '   |[__I_I_I_I_I_I_I_I_I_I_I_I_L___|  _[_]_  [_I_I_I_]|',
+            \ '   |[_____I_I_I_I_I_I_I_I_I_I_I____] [_I_I_] [_I_I_T ||',
+            \ '   | [__I__I_________________I__L_] ________ [___I_I_j|',
+            \ '   |                                                  |',
+            \ '   l__________________________________________________|',
             \ '',
-            \ '',
-            \ ]
-let g:startify_custom_footer = [
-            \ '                  __    ____    ____    __      ',
-            \ '                 /  \  / __ \  / __ \  /  \     ',
-            \ '                /\__ \/\ \_\ \/\ \_\ \/\__ \    ',
-            \ '                \/_/\ \ \____ \ \____ \/_/\ \   ',
-            \ '                   \ \ \/___/\ \/___/\ \ \ \ \  ',
-            \ '                    \ \_\   \ \_\   \ \_\ \ \_\ ',
-            \ '                     \/_/    \/_/    \/_/  \/_/ ',
             \ ]
 " special colors for startify
 hi StartifyHeader  ctermfg=108
@@ -288,6 +347,20 @@ let g:vimwiki_conceallevel = 3
 "}}}
 " ZoomWin            ::: zoom buffers to fill the entire screen"{{{
 " no customizations yet
+""}}}
+" YouCompleteMe      ::: autocompletion settings"{{{
+let g:ycm_auto_trigger = 0
+let g:ycm_cache_omnifunc = 0
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_autoclose_preview_window_after_insertion = 1
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers['typescript'] = ['.']
+let g:ycm_semantic_triggers['javascript'] = ['.']
 ""}}}
 " wildfire.vim       ::: quickly select the closest nested text objects "{{{
 " use '*' to mean 'all filetypes'
@@ -308,21 +381,22 @@ let g:airline_right_sep=' '
 " let g:airline_enable_branch=1
 let g:airline#extensions#branch#enabled=1
 " disable syntastic for now
-let g:airline#extensions#syntastic#enabled=1
+" let g:airline#extensions#syntastic#enabled=1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
-let g:airline_theme='bubblegum'
-" let g:airline_theme='zenburn'
+let g:airline_theme='zenburn'
+" let g:tender_airline = 1
+" let g:airline_theme='tender'
 
 let g:airline_powerline_fonts=0
 let g:airline_mode_map= {
-      \ 'n'  : 'NORMAL ',
-      \ 'i'  : 'INSERT ',
-      \ 'R'  : 'REPLACE',
-      \ 'v'  : 'VISUAL ',
-      \ 'V'  : 'V-LINE ',
-      \ 'c'  : 'CMD    ',
-      \ '' : 'V-BLOCK',
+      \ 'n'  : 'NOR',
+      \ 'i'  : 'INS',
+      \ 'R'  : 'RPL',
+      \ 'v'  : 'VIS',
+      \ 'V'  : 'VLN',
+      \ 'c'  : 'CMD',
+      \ '' : 'VBL',
       \ }
 let g:airline_symbols.branch = '⎇ '
 
@@ -340,9 +414,6 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 "}}}
 
 
-" load bundles "{{{
-call pathogen#infect()
-call pathogen#helptags() "}}}
 " enable mousing in terminal"{{{
 set mouse=a
 
@@ -459,6 +530,7 @@ set tw=0 "}}}
 set nowrap "}}}
 " copy/paste settings"{{{
 nmap <Leader>p "+
+imap <C-v> <esc>"+i
 set pastetoggle=<F12> " toggle pasting into vim while preserving text's original format
 "}}}
 " maintain buffer undo history when switching between buffers in the buffer list "{{{
@@ -482,8 +554,6 @@ set encoding=utf-8 "}}}
 if v:servername == "ECLIPSE"
     set autoread
 endif "}}}
-" show current command "{{{
-set showcmd "}}}
 " faster character drawing (assumes fast terminal connection) "{{{
 set ttyfast "}}}
 " show current line and column number "{{{
@@ -571,10 +641,11 @@ nnoremap ya> F>yt<
 nnoremap vi> T>vt<
 nnoremap va> F>vt< "}}}
 "}}}
-" I'm not sure what these are for anymore :] "{{{
-let g:netrw_liststyle=3
-let g:netrw_browse_split=4
-let g:netrw_preview=1 "}}}
+" configure netrw file tree viewer "{{{
+" let g:netrw_liststyle=3
+" let g:netrw_browse_split=4
+let g:netrw_preview=1 
+"}}}
 " make ~ act like an operator "{{{
 set tildeop "}}}
 " map Ctrl-Tab to zencoding expand "{{{
@@ -654,11 +725,11 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " }}}
 " During a macro, only update the screen when the macro has finished {{{
 " vastly speeds up macro processing time when running on many lines
-set lazyredraw
+"set lazyredraw
 " }}}
 " Only syntax highlight the first X columns {{{
 " This vastly speeds up vim when using files with VERY long lines
-set synmaxcol=2048
+set synmaxcol=256
 " }}}
 " Move visual block"{{{
 vnoremap J :m '>+1<CR>gv=gv
@@ -671,18 +742,6 @@ set splitbelow
 " Give a shorter message when an existing swap file is found"{{{
 set shortmess+=A
 "}}}
-" Highlight all columns 80 and over"{{{
-function! DarkenOuterColumns()
-    if (exists('+colorcolumn'))
-        set colorcolumn=80
-        highlight ColorColumn ctermbg=233
-        execute "set colorcolumn=" . join(range(81,335), ',')
-    endif
-endfunction
-" disable temporarily, until I can figure out why the foreground color is
-" lost when this is run.
-" call DarkenOuterColumns()
-"}}}
 " grunt build shortcuts"{{{
 nmap <Leader>bb :Dispatch!<CR>
 autocmd FileType javascript let b:dispatch = 'grunt build:dev && notify-send Grunt "Build complete"'
@@ -694,9 +753,21 @@ set t_ut=
 " autocomplete settings"{{{
 set complete=.,w,b,t,i
 "}}}
-" save and load fold settings "{{{
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
+" preserve cursor position when yanking"{{{
+vnoremap y myy`y
+vnoremap Y myY`y
+"}}}
+" autoformat bulleted paragraphs"{{{
+setlocal formatlistpat=^\\s*[\\[({]\\\?\\([0-9]\\+\\\|[iIvVxXlLcCdDmM]\\+\\\|[a-zA-Z]\\)[\\]:.)}]\\s\\+\\\|^\\s*[-+o*]\\s\\+
+set formatoptions+=n
+"}}}
+"end search highlighting when insert mode is entered"{{{
+au InsertEnter * :set nohls " in insert mode, display raw line numbers
+"}}}
+" generate amazing profiling information!"{{{
+" :profile start profile.log
+" :profile func *
+" :profile file *
 "}}}
 
 " vim: set foldmethod=marker:
